@@ -23,10 +23,10 @@ paths:
           name: filter
           schema: 
              properties:
-               startdate:
+               startDate:
                  type: string
                  format: date
-               enddate:
+               endDate:
                  type: string
                  format: date  
               
