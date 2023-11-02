@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Library API
   version: 1.0.0
-  description: STD22001
+  description: STD22105
 servers:
   - url: https://library.com
 paths:
@@ -49,6 +49,62 @@ paths:
                   $ref: '#/components/schemas/Book'
   /authors:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
+   get:
+      summary: Get all authors
+      operationId: getAuthors
+      parameters:
+        - in: query
+          name: authorName
+          description: Filter return authors by given name
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: The list of filtered author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
+   put:
+      summary: Update authors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/author'
+      responses:
+        200:
+          description: The list of created or updated author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
+   delete:
+      summary: delete author
+      description: delete a author
+      parameters:
+        - name: author
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: author deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/author"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/author"
 components:
   schemas:
     Book:
