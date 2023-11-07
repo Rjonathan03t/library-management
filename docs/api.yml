@@ -8,6 +8,8 @@ servers:
 paths:
   /books:
     get:
+      tags:
+        - book
       summary: Get all books
       description: The returned books are ordered by updated datetime.
       operationId: getBooks
@@ -29,7 +31,6 @@ paths:
                endDate:
                  type: string
                  format: date  
-              
       responses:
         200:
           description: The list of filtered books
@@ -40,7 +41,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
     put:
-      summary: Create or update a list of books
+      tags:
+        - book
+      summary: Create or update a list of books with author
       operationId: crupdateBooks
       requestBody:
         content:
@@ -48,7 +51,8 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/CrupdateBook'
+
       responses:
         200:
           description: The list of created or updated books
@@ -61,6 +65,8 @@ paths:
   /authors:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
    get:
+      tags:
+        - Authors
       summary: Get all authors
       operationId: getAuthors
       parameters:
@@ -79,6 +85,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/author'
    put:
+      tags:
+        - Authors
       summary: Update authors
       requestBody:
         content:
@@ -97,6 +105,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/author'
    delete:
+      tags:
+        - Authors
       summary: delete author
       description: delete a author
       parameters:
@@ -117,17 +127,13 @@ paths:
                 $ref: "#/components/schemas/author"
 components:
   schemas:
-    Book:
-      type: object
-      properties:
+    CrupdateBook:
+       type: object
+       properties:
         id:
           type: string
         bookName:
           type: string
-        author:
-          #TODO1: set it as a component with properties : id, name, sex (M or F)
-          items: 
-            $ref: '#/components/schemas/author'
         pageNumbers:
           type: integer
         topic:
@@ -139,6 +145,15 @@ components:
         releaseDate:
           type: string
           format: date
+    Book:
+      allOf:
+        - $ref: '#/components/schemas/CrupdateBook'
+      type: object
+      properties:
+        author:
+          #TODO1: set it as a component with properties : id, name, sex (M or F)
+          items: 
+            $ref: '#/components/schemas/author'
     author:
       properties:
         id:
