@@ -76,7 +76,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-  /authors:
+  /authors/{page}/{pageSize}:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
    get:
       tags:
@@ -89,6 +89,20 @@ paths:
           required: false
           schema:
             type: string
+        - in: path
+          name: page
+          description: page number (default 1)
+          required: false
+          schema:
+            type: integer
+            default: 1         
+        - in: path
+          name: pageSize
+          description: page size (default 50)
+          required: false
+          schema:
+            type: integer
+            default: 50          
       responses:
         200:
           description:  get author
@@ -182,7 +196,14 @@ paths:
                  $ref: "#/components/schemas/updateBookAuthor"
       responses:
         "200":
-            description: updated book with author                 
+            description: updated book with author          
+            content:
+             application/json:
+              schema:
+               $ref: "#/components/schemas/updateBookAuthor"
+             application/xml:
+              schema:
+               $ref: "#/components/schemas/updateBookAuthor"
 components:
   schemas:
     CrupdateBook:
