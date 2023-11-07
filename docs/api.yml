@@ -125,6 +125,50 @@ paths:
             application/xml:
               schema:
                 $ref: "#/components/schemas/author"
+  /book/{bookId}/author/{authorId}:
+    put:
+      tags:
+        - book
+      summary: Associate  a single book to one author
+      operationId: Associate
+      parameters:
+        - name: bookId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: authorId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description:  list of updated book with author
+          content:
+            application/json:
+             schema:
+               $ref: "#/components/schemas/Book"
+            application/xml:
+             schema:
+               $ref: "#/components/schemas/Book"
+  /book/author:
+    put:
+      tags:
+        - book
+      summary: update the author of the book
+      operationId: updateBookAuthor
+      requestBody:
+        required: true
+        content:
+           application/json:
+              schema:
+                type: array
+                items:
+                 $ref: "#/components/schemas/updateBookAuthor"
+      responses:
+        "200":
+            description: updated book with author                 
 components:
   schemas:
     CrupdateBook:
@@ -165,3 +209,14 @@ components:
           enum:
             - M
             - F          
+    updateBookAuthor:
+      type: object
+      properties:
+        bookId:
+          type: integer
+        authorId:
+          type: integer
+
+
+
+
