@@ -204,6 +204,25 @@ paths:
              application/xml:
               schema:
                $ref: "#/components/schemas/updateBookAuthor"
+  /topic:
+    get:
+      tags:
+        - topic
+      summary: get all topic
+      operationId: getTopic             
+      parameters:
+        - in: query
+          name: topicName
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+            description: list of topic
+            content:
+              application/json:
+                 schema:
+                   $ref: "#/components/schemas/topic"
 components:
   schemas:
     CrupdateBook:
@@ -251,7 +270,13 @@ components:
           type: integer
         authorId:
           type: integer
-
+    topic:
+      type: object
+      properties:
+        id: 
+          type: integer
+        name: 
+          type: string
 
 
 
