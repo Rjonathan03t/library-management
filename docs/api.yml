@@ -136,16 +136,10 @@ paths:
       tags:
         - Authors
       summary: delete author
-      description: delete a author
-      parameters:
-        - name: author
-          in: path
-          required: true
-          schema:
-            type: string
+      description: delete all author
       responses:
         "200":
-          description: author deleted
+          description: all  deleted
           content:
             application/json:
               schema:
