@@ -223,6 +223,25 @@ paths:
               application/json:
                  schema:
                    $ref: "#/components/schemas/topic"
+    put:
+      tags:
+        - topic
+      summary: create or update topic
+      operationId: updateTopic
+      requestBody:
+         content:
+           application/json:
+            schema:
+             type: array
+             items:
+               $ref: "#/components/schemas/topic"
+      responses:
+       "200":
+          description: list of created or updated topic      
+          content:
+            application/json:
+                schema:   
+                  $ref: "#/components/schemas/topic"
 components:
   schemas:
     CrupdateBook:
