@@ -76,7 +76,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-  /authors/{page}/{pageSize}:
+  /authors:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
    get:
       tags:
@@ -242,6 +242,27 @@ paths:
             application/json:
                 schema:   
                   $ref: "#/components/schemas/topic"
+    delete:
+      tags:
+        - topic
+      summary: delete author
+      description: delete a author
+      parameters:
+        - in: path
+          name: topicName
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: topic deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/topic"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/topic"
 components:
   schemas:
     CrupdateBook:
