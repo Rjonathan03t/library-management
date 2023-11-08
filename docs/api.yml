@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.0.1
+  version: 1.2.0
   description: STD22105
 servers:
   - url: https://library.com
@@ -31,20 +31,7 @@ paths:
                endDate:
                  type: string
                  format: date  
-        - in: query
-          name: page
-          description: page number (default 1)
-          required: false
-          schema:
-            type: integer
-            default: 1         
-        - in: query
-          name: pageSize
-          description: page size (default 50)
-          required: false
-          schema:
-            type: integer
-            default: 50        
+        - $ref: '#/components/parameters/queryPagination'
       responses:
         200:
           description: The list of filtered books
@@ -89,20 +76,7 @@ paths:
           required: false
           schema:
             type: string
-        - in: path
-          name: page
-          description: page number (default 1)
-          required: false
-          schema:
-            type: integer
-            default: 1         
-        - in: path
-          name: pageSize
-          description: page size (default 50)
-          required: false
-          schema:
-            type: integer
-            default: 50          
+        - $ref: '#/components/parameters/queryPagination'
       responses:
         200:
           description:  get author
@@ -415,4 +389,33 @@ components:
            $ref: '#/components/schemas/author'
         topic: 
           items:
-           $ref: '#/components/schemas/topic'
+           $ref: '#/components/schemas/topic'           
+  parameters:
+    queryPagination:
+      in: query
+      name: page and pageSize
+      description: pagination
+      required: false
+      schema:
+        type: object
+        properties:
+          page: 
+            type: integer
+            default: 1
+          pageSize: 
+            type: integer
+            default: 50
+    pathPagination:
+      in: path
+      name: page and pageSize
+      description: pagination
+      required: true
+      schema:
+        type: object
+        properties:
+          page: 
+            type: integer
+            default: 1
+          pageSize: 
+            type: integer
+            default: 50
