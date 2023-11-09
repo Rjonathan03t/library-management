@@ -31,42 +31,8 @@ paths:
                endDate:
                  type: string
                  format: date  
-        - $ref: '#/components/parameters/queryPagination'
-      responses:
-        200:
-          description: The list of filtered books
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
-  /books/{page}:
-    get:
-      tags:
-        - book
-      summary: Get all books
-      description: The returned books are ordered by updated datetime.
-      operationId: getBooks
-      parameters:
-        - in: query
-          name: bookName
-          description: Filter return books by given name
-          required: false
-          schema:
-            type: string
-        #TODO3: add parameter to filter books by intervals of dates of the releaseDate  
-        - in: query
-          name: filter
-          schema: 
-             properties:
-               startDate:
-                 type: string
-                 format: date
-               endDate:
-                 type: string
-                 format: date  
-        - $ref: '#/components/parameters/pathPagination'
+        - $ref: '#/components/parameters/queryPage'
+        - $ref: '#/components/parameters/queryPageSize'
       responses:
         200:
           description: The list of filtered books
@@ -98,6 +64,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+  /authors/{page}/{pageSize}:
+   get:
+      tags:
+        - Authors
+      summary: Get all authors
+      operationId: getAuthors
+      parameters:
+        - $ref: '#/components/parameters/pathPage'
+        - $ref: '#/components/parameters/pathPageSize'
+      responses:
+        200:
+          description:  get author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
   /authors:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
    get:
@@ -106,12 +90,11 @@ paths:
       summary: Get all authors
       operationId: getAuthors
       parameters:
-        - in: query
+        - in: path
           name: authorName
-          required: false
+          required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/queryPagination'
       responses:
         200:
           description:  get author
@@ -121,28 +104,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/author'
-  /authors/{page}:
-   get:
-      tags:
-        - Authors
-      summary: Get all authors
-      operationId: getAuthors
-      parameters:
-        - in: query
-          name: authorName
-          required: false
-          schema:
-            type: string
-        - $ref: '#/components/parameters/pathPagination'
-      responses:
-        200:
-          description:  get author
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/author'
+ 
    put:
       tags:
         - Authors
@@ -254,7 +216,7 @@ paths:
           required: false
           schema: 
              type: integer
-             default: 1   
+             default: 50   
       responses:
         "200":
             description: list of topic
@@ -448,31 +410,35 @@ components:
           items:
            $ref: '#/components/schemas/topic'           
   parameters:
-    queryPagination:
-      in: query
-      name: page and pageSize
-      description: pagination
-      required: false
-      schema:
-        type: object
-        properties:
-          page: 
-            type: integer
-            default: 1
-          pageSize: 
-            type: integer
-            default: 50
-    pathPagination:
-      in: path
-      name: page and pageSize
-      description: pagination
-      required: true
-      schema:
-        type: object
-        properties:
-          page: 
-            type: integer
-            default: 1
-          pageSize: 
-            type: integer
-            default: 50
+    queryPage:
+        in: query
+        name: page
+        description: page number (default 1)
+        required: false
+        schema:
+          type: integer
+          default: 1         
+    queryPageSize:
+        in: query
+        name: pageSize
+        description: size of the page (default 50)
+        required: false
+        schema:
+          type: integer
+          default: 50         
+    pathPage:
+        in: path
+        name: page
+        description: page number (default 1)
+        required: true
+        schema:
+          type: integer
+          default: 1         
+    pathPageSize:
+        in: query
+        name: pageSize
+        description: size of the page (default 50)
+        required: true
+        schema:
+          type: integer
+          default: 50         
