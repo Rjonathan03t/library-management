@@ -63,6 +63,57 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
+  /books/import:
+   post: 
+      tags:
+       - book
+      summary: import books
+      operationId: importBooks
+      requestBody:
+        required: true 
+        content:
+          application/json:
+           schema:
+            oneOf:
+              -  $ref: "#/components/schemas/importBook"   
+              -  $ref: "#/components/schemas/importBookExcel"
+
+      responses:
+        200: 
+          description:  the list of imported books
+          content:
+            application/json:
+               schema: 
+                 type: array
+                 items:
+                   $ref: "#/components/schemas/importBook"  
+
+  /author/import:
+   post: 
+      tags:
+       - Authors
+      summary: import authors
+      operationId: importAuthors
+      requestBody:
+        required: true 
+        content:
+          application/json:
+           schema:
+            oneOf:
+              -  $ref: "#/components/schemas/importAuthor"   
+              -  $ref: "#/components/schemas/importAuthorExcel"
+
+      responses:
+        200: 
+          description:  the list of imported Authors
+          content:
+            application/json:
+               schema: 
+                 type: array
+                 items:
+                   $ref: "#/components/schemas/importAuthor"  
+
   /authors/{page}/{pageSize}:
    get:
       tags:
@@ -81,6 +132,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/author'
+
   /authors:
   #TODO2: complete GET (can be filtered by name) - PUT - DELETE
    get:
@@ -139,6 +191,7 @@ paths:
             application/xml:
               schema:
                 $ref: "#/components/schemas/author"
+
   /book/{bookId}/author/{authorId}:
     put:
       tags:
@@ -166,6 +219,7 @@ paths:
             application/xml:
              schema:
                $ref: "#/components/schemas/Book"
+
   /book/author:
     put:
       tags:
@@ -190,6 +244,7 @@ paths:
              application/xml:
               schema:
                $ref: "#/components/schemas/updateBookAuthor"
+
   /topic:
     get:
       tags:
@@ -263,6 +318,7 @@ paths:
             application/xml:
               schema:
                 $ref: "#/components/schemas/topic"
+
   /book/{bookId}/topic/{topicId}:
     put:
       tags:
@@ -286,7 +342,8 @@ paths:
            content:
              application/json:
                schema: 
-                 $ref: "#/components/schemas/CrupdateBook"   
+                 $ref: "#/components/schemas/CrupdateBook"  
+
   /book/topic:
     put:
       tags:
@@ -311,6 +368,7 @@ paths:
              application/xml:
               schema:
                $ref: "#/components/schemas/updateTopicBook"        
+
   /author/topic:
       get: 
         tags:
@@ -330,6 +388,7 @@ paths:
                application/json:
                  schema: 
                    $ref: '#/components/schemas/authorWithTopic'  
+
 components:
   schemas:
     CrupdateBook:
@@ -347,6 +406,7 @@ components:
         releaseDate:
           type: string
           format: date
+
     Book:
       allOf:
         - $ref: '#/components/schemas/CrupdateBook'
@@ -356,6 +416,7 @@ components:
           #TODO1: set it as a component with properties : id, name, sex (M or F)
           items: 
             $ref: '#/components/schemas/author'
+
     author:
       properties:
         id:
@@ -367,6 +428,7 @@ components:
           enum:
             - M
             - F          
+
     updateBookAuthor:
       type: object
       properties:
@@ -374,6 +436,7 @@ components:
           type: integer
         authorId:
           type: integer
+
     updateTopicBook:
       type: object
       properties:
@@ -381,6 +444,7 @@ components:
           type: integer
         topicId:
           type: integer
+
     bookWithTopic:
       allOf:
         - $ref:  '#/components/schemas/CrupdateBook'
@@ -389,6 +453,7 @@ components:
         topic: 
            items:
              $ref: '#/components/schemas/topic'        
+
     topic:
       type: object
       properties:
@@ -399,6 +464,7 @@ components:
           - ROMANCE
           - COMEDY
           - OTHER
+
     authorWithTopic:
       type: object
       properties:
@@ -408,6 +474,7 @@ components:
         topic: 
           items:
            $ref: '#/components/schemas/topic'  
+
     responses:
         type: object
         properties:
@@ -439,6 +506,40 @@ components:
      allOf:
       - $ref: "#/components/schemas/responses"
      description: server error 
+
+    importBook: 
+      allOf:
+        - $ref: "#/components/schemas/CrupdateBook"
+      type:  object
+      properties:
+         idAuthor:
+          type: integer
+         authorName:
+          type: string
+
+    importBookExcel:
+       type: object
+       properties:
+         bookExcel: 
+            type: string
+
+    importAuthor:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex: 
+          type: string
+          enum: 
+            - M
+            - F
+
+    importAuthorExcel:
+      type: object
+      properties:
+        authorExcel: 
+          type: string
+
   parameters:
     queryPage:
         in: query
