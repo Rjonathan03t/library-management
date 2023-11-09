@@ -41,6 +41,41 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+  /books/{page}:
+    get:
+      tags:
+        - book
+      summary: Get all books
+      description: The returned books are ordered by updated datetime.
+      operationId: getBooks
+      parameters:
+        - in: query
+          name: bookName
+          description: Filter return books by given name
+          required: false
+          schema:
+            type: string
+        #TODO3: add parameter to filter books by intervals of dates of the releaseDate  
+        - in: query
+          name: filter
+          schema: 
+             properties:
+               startDate:
+                 type: string
+                 format: date
+               endDate:
+                 type: string
+                 format: date  
+        - $ref: '#/components/parameters/pathPagination'
+      responses:
+        200:
+          description: The list of filtered books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
     put:
       tags:
         - book
@@ -77,6 +112,28 @@ paths:
           schema:
             type: string
         - $ref: '#/components/parameters/queryPagination'
+      responses:
+        200:
+          description:  get author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
+  /authors/{page}:
+   get:
+      tags:
+        - Authors
+      summary: Get all authors
+      operationId: getAuthors
+      parameters:
+        - in: query
+          name: authorName
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/pathPagination'
       responses:
         200:
           description:  get author
