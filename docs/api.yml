@@ -412,6 +412,8 @@ paths:
                 endDate: 
                    type: string
                    format: date
+        security:
+          - OAuth2: [admin]           
         responses:
           200:
             description: book lended
@@ -441,6 +443,8 @@ paths:
                 endDate: 
                    type: string
                    format: date
+        security:
+          - OAuth2: [admin]           
         responses:
           200:
             description: book rendered
@@ -455,6 +459,8 @@ paths:
           - book
         summary: get the list of available book
         operationId: getAvailableBook
+        security:
+          - OAuth2: [admin]
         responses:
             200: 
               description: list of available book
@@ -473,6 +479,8 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/bookCustomer'
+        security:
+          - OAuth2: [admin]
         responses:
           200:
             description: book lended
@@ -491,6 +499,8 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/bookCustomer'
+        security:
+          - OAuth2: [admin]
         responses:
           200:
             description: book lended
@@ -741,6 +751,14 @@ components:
         required: true
         schema:
           type: integer
-          default: 50         
+          default: 50       
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://authorization.com
+          scopes:
+            admin: admin access      
    
                
